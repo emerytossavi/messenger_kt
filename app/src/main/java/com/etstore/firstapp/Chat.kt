@@ -1,43 +1,63 @@
 package com.etstore.firstapp
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-
-import android.widget.TextView
-
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 class Chat : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_chat)
 
+        // Ajustement automatique des marges pour gérer les insets (optionnel)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        // Récupérer les données passées par l'Intent
-        val imageResId = intent.getIntExtra("imageResId", 0)
-        val titre = intent.getStringExtra("titre")
-        val sousTitre1 = intent.getStringExtra("sousTitre1")
-        val sousTitre2 = intent.getStringExtra("sousTitre2")
-        val buttonIconResId = intent.getIntExtra("buttonIconResId", 0)
 
-        // Utiliser ces données dans l'UI de cette activité
+        val message = intent.getStringExtra("sousTitre1")
+        val heure = intent.getStringExtra("sousTitre2")
+
+        // Liste des messages (MutableList pour pouvoir ajouter de nouveaux messages)
+        val messages = mutableListOf(
+            Message("Salut", "0h30", false, false),
+            Message("Comment ça va ?", "0h31", false, false),
+            Message("Salut", "0h30", false, false),
+            Message("Comment ça va ?", "0h31", false, false),
+            Message("Salut", "0h30", false, false),
+            Message("Comment ça va ?", "0h31", false, false),
+            Message("Salut", "0h30", false, false),
+            Message("Comment ça va ?", "0h31", false, false),
+            Message("Salut", "0h30", false, false),
+            Message("Comment ça va ?", "0h31", false, false),
+            Message("Salut", "0h30", false, false),
+            Message("Comment ça va ?", "0h31", false, false),
+            Message("Salut", "0h30", false, false),
+            Message("Comment ça va ?", "0h31", false, false),
+            Message("Salut", "0h30", false, false),
+            Message("Comment ça va ?", "0h31", false, false),
+            Message("Salut", "0h30", false, false),
+            Message("Comment ça va ?", "0h31", false, false),
+            Message(message.toString(), heure.toString(), false, false)
+        )
+
+        // Configuration du RecyclerView
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerViewMessages)
+        recyclerView.layoutManager = LinearLayoutManager(this)  // Ajout du LayoutManager
+        val adapter = MessageAdapter(messages)
+        recyclerView.adapter = adapter
+
+        // Récupération des données passées par Intent
+        val titre = intent.getStringExtra("titre") ?: "Utilisateur" // Valeur par défaut si null
+
+        // Mise à jour de l'UI
         val nom = findViewById<TextView>(R.id.nom)
-        //val sousTitre1TextView = findViewById<TextView>(R.id.sousTitre1TextView)
-        //val sousTitre2TextView = findViewById<TextView>(R.id.sousTitre2TextView)
-        //val imageView = findViewById<ImageView>(R.id.imageView)
-
-        // Remplir l'UI avec les données reçues
-        //imageView.setImageResource(imageResId)
         nom.text = titre
-        //sousTitre1TextView.text = sousTitre1
-        //sousTitre2TextView.text = sousTitre2
     }
 }

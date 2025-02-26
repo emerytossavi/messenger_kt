@@ -65,7 +65,7 @@
 
         <!-- ImageButton -->
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/snap"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="?attr/selectableItemBackgroundBorderless"
